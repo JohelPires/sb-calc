@@ -31,7 +31,7 @@ function Calc() {
         {formula}
       </div>
       <div id='display' className='display'>
-        {display}
+        <h2>{display}</h2>
       </div>
       <div className='btn-container'>
         <button onClick={(e) => handleClick(e)} id='clear'>
