@@ -3,6 +3,11 @@ import React, { useState } from 'react'
 function Calc() {
   const [display, setDisplay] = useState('0')
   const [formula, setFormula] = useState('')
+
+  // essa variavel marca o final da formula, após o sinal de igual ter sido clicado e o resultado mostrado.
+  //   const [endCalc, setEndCalc] = useState(false)
+  let endCalc = false
+
   function handleClick(e) {
     setFormula((prevFormula) => prevFormula + e.target.outerText)
     switch (e.target.outerText) {
@@ -12,10 +17,16 @@ function Calc() {
         break
 
       case '=':
+        endCalc = true
         setDisplay(eval(formula))
+        setFormula((prevFormula) => prevFormula + eval(formula))
         break
 
       default:
+        if (endCalc) {
+          alert('fix this')
+          endCalc = false
+        }
         setDisplay((prevDisplay) =>
           Number(prevDisplay)
             ? prevDisplay + e.target.outerText
