@@ -5,34 +5,36 @@ function Calc() {
   const [formula, setFormula] = useState('')
 
   // essa variavel marca o final da formula, após o sinal de igual ter sido clicado e o resultado mostrado.
-  //   const [endCalc, setEndCalc] = useState(false)
-  let endCalc = false
+  const [endCalc, setEndCalc] = useState(false)
+  //   let endCalc = false
+
+  // MUDAR O SWITCH PARA IFs:
 
   function handleClick(e) {
-    setFormula((prevFormula) => prevFormula + e.target.outerText)
-    switch (e.target.outerText) {
-      case 'AC':
-        setDisplay('0')
-        setFormula('')
-        break
-
-      case '=':
-        endCalc = true
-        setDisplay(eval(formula))
-        setFormula((prevFormula) => prevFormula + eval(formula))
-        break
-
-      default:
-        if (endCalc) {
-          alert('fix this')
-          endCalc = false
-        }
-        setDisplay((prevDisplay) =>
-          Number(prevDisplay)
-            ? prevDisplay + e.target.outerText
-            : e.target.outerText
-        )
-        break
+    const d = e.target.outerText
+    if (endCalc) {
+      setDisplay('')
+      setFormula('')
+      setEndCalc(false)
+    }
+    setFormula((prevFormula) => prevFormula + d)
+    if (Number(d) || d === '0' || d === '.') {
+      display === '0' ||
+      display === '+' ||
+      display === '-' ||
+      display === '/' ||
+      display === '*'
+        ? setDisplay(d)
+        : setDisplay((prevDisplay) => prevDisplay + e.target.outerText)
+    } else if (d === 'AC') {
+      setDisplay('0')
+      setFormula('')
+    } else if (d === '+' || d === '-' || d === '*' || d === '/') {
+      setDisplay(d)
+    } else if (d === '=') {
+      setEndCalc(true)
+      setDisplay(eval(formula))
+      setFormula((prevFormula) => prevFormula + eval(formula))
     }
   }
 
