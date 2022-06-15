@@ -1,4 +1,4 @@
-import logo from './logo.svg'
+// import './bootstrap.css'
 import './App.css'
 import Calc from './components/Calc'
 
