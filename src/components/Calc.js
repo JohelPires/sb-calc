@@ -13,8 +13,13 @@ function Calc() {
   function handleClick(e) {
     const d = e.target.outerText
     if (endCalc) {
-      setDisplay('')
-      setFormula('')
+      if (d === '+' || d === '-' || d === '*' || d === '/') {
+        setFormula(display)
+        setDisplay(d)
+      } else {
+        setDisplay('')
+        setFormula('')
+      }
       setEndCalc(false)
     }
     if (d === '.' && formula.includes('.')) {
@@ -35,7 +40,35 @@ function Calc() {
     } else if (d === 'AC') {
       setDisplay('0')
       setFormula('')
-    } else if (d === '+' || d === '-' || d === '*' || d === '/') {
+    } else if (d === '+' || d === '*' || d === '/') {
+      // Multiple operations clicked consecutively? choose the last:
+
+      if (
+        formula[formula.length - 1] === '+' ||
+        formula[formula.length - 1] === '-' ||
+        formula[formula.length - 1] === '*' ||
+        formula[formula.length - 1] === '/'
+      ) {
+        const updateFormula = formula.slice(0, -1) + d
+        console.log(updateFormula)
+
+        setFormula(updateFormula)
+      }
+
+      setDisplay(d)
+    } else if (d === '-') {
+      if (
+        formula[formula.length - 1] === '+' ||
+        formula[formula.length - 1] === '-' ||
+        formula[formula.length - 1] === '*' ||
+        formula[formula.length - 1] === '/'
+      ) {
+        const updateFormula = formula + d
+        console.log(updateFormula)
+
+        setFormula(updateFormula)
+      }
+
       setDisplay(d)
     } else if (d === '=' && display !== '0') {
       setEndCalc(true)
