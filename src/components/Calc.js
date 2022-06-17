@@ -22,13 +22,13 @@ function Calc() {
       }
       setEndCalc(false)
     }
-    if (d === '.' && formula.includes('.')) {
-      return
-    } else if (formula !== '0') {
-      setFormula((prevFormula) => prevFormula + d)
-    } else {
-      setFormula(d)
-    }
+    // if (d === '.' && formula.includes('.')) {
+    //   return
+    // } else if (formula !== '0') {
+    //   setFormula((prevFormula) => prevFormula + d)
+    // } else {
+    //   setFormula(d)
+    // }
     if (Number(d) || d === '0') {
       display === '0' ||
       display === '+' ||
@@ -37,6 +37,7 @@ function Calc() {
       display === '*'
         ? setDisplay(d)
         : setDisplay((prevDisplay) => prevDisplay + e.target.outerText)
+      setFormula((prevFormula) => prevFormula + d)
     } else if (d === 'AC') {
       setDisplay('0')
       setFormula('')
@@ -53,8 +54,9 @@ function Calc() {
         console.log(updateFormula)
 
         setFormula(updateFormula)
+      } else {
+        setFormula((prevFormula) => prevFormula + d)
       }
-
       setDisplay(d)
     } else if (d === '-') {
       if (
@@ -64,21 +66,29 @@ function Calc() {
         formula[formula.length - 1] === '/'
       ) {
         const updateFormula = formula + d
-        console.log(updateFormula)
 
         setFormula(updateFormula)
+      } else {
+        setFormula((prevFormula) => prevFormula + d)
       }
-
       setDisplay(d)
     } else if (d === '=' && display !== '0') {
       setEndCalc(true)
       setDisplay(eval(formula))
-      setFormula((prevFormula) => prevFormula + eval(formula))
+      setFormula((prevFormula) => prevFormula + '=' + eval(formula))
     } else if (d === '.') {
       if (!display.includes('.')) {
-        display === '+' || display === '-' || display === '/' || display === '*'
-          ? setDisplay(d)
-          : setDisplay((prevDisplay) => prevDisplay + e.target.outerText)
+        if (
+          display === '+' ||
+          display === '-' ||
+          display === '/' ||
+          display === '*'
+        ) {
+          setDisplay(d)
+        } else {
+          setDisplay((prevDisplay) => prevDisplay + e.target.outerText)
+          setFormula((prevFormula) => prevFormula + d)
+        }
       }
     }
   }
