@@ -17,8 +17,14 @@ function Calc() {
       setFormula('')
       setEndCalc(false)
     }
-    setFormula((prevFormula) => prevFormula + d)
-    if (Number(d) || d === '0' || d === '.') {
+    if (d === '.' && formula.includes('.')) {
+      return
+    } else if (formula !== '0') {
+      setFormula((prevFormula) => prevFormula + d)
+    } else {
+      setFormula(d)
+    }
+    if (Number(d) || d === '0') {
       display === '0' ||
       display === '+' ||
       display === '-' ||
@@ -31,10 +37,16 @@ function Calc() {
       setFormula('')
     } else if (d === '+' || d === '-' || d === '*' || d === '/') {
       setDisplay(d)
-    } else if (d === '=') {
+    } else if (d === '=' && display !== '0') {
       setEndCalc(true)
       setDisplay(eval(formula))
       setFormula((prevFormula) => prevFormula + eval(formula))
+    } else if (d === '.') {
+      if (!display.includes('.')) {
+        display === '+' || display === '-' || display === '/' || display === '*'
+          ? setDisplay(d)
+          : setDisplay((prevDisplay) => prevDisplay + e.target.outerText)
+      }
     }
   }
 
