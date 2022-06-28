@@ -10,10 +10,17 @@ function Calc() {
 
   // MUDAR O SWITCH PARA IFs:
 
+  function isOperator(char) {
+    if (char === '+' || char === '*' || char === '/' || char === '-') {
+      return true
+    }
+    return false
+  }
+
   function handleClick(e) {
     const d = e.target.outerText
     if (endCalc) {
-      if (d === '+' || d === '-' || d === '*' || d === '/') {
+      if (isOperator(d)) {
         setFormula(display)
         setDisplay(d)
       } else {
@@ -22,13 +29,7 @@ function Calc() {
       }
       setEndCalc(false)
     }
-    // if (d === '.' && formula.includes('.')) {
-    //   return
-    // } else if (formula !== '0') {
-    //   setFormula((prevFormula) => prevFormula + d)
-    // } else {
-    //   setFormula(d)
-    // }
+
     if (Number(d) || d === '0') {
       display === '0' ||
       display === '+' ||
@@ -41,35 +42,30 @@ function Calc() {
     } else if (d === 'AC') {
       setDisplay('0')
       setFormula('')
-    } else if (d === '+' || d === '*' || d === '/') {
-      // Multiple operations clicked consecutively? choose the last:
-
-      if (
-        formula[formula.length - 1] === '+' ||
-        formula[formula.length - 1] === '-' ||
-        formula[formula.length - 1] === '*' ||
-        formula[formula.length - 1] === '/'
-      ) {
-        const updateFormula = formula.slice(0, -1) + d
-        console.log(updateFormula)
-
+    } else if (d === '-') {
+      if (formula[formula.length - 1] === '-') {
+        const updateFormula = formula.slice(0, -1)
         setFormula(updateFormula)
       } else {
         setFormula((prevFormula) => prevFormula + d)
       }
       setDisplay(d)
-    } else if (d === '-') {
-      if (
-        formula[formula.length - 1] === '+' ||
-        formula[formula.length - 1] === '-' ||
-        formula[formula.length - 1] === '*' ||
-        formula[formula.length - 1] === '/'
-      ) {
-        const updateFormula = formula + d
+    } else if (isOperator(d)) {
+      // Multiple operations clicked consecutively? choose the last:
+      if (isOperator(formula[formula.length - 1])) {
+        const updateFormula = formula.slice(0, -1) + d
 
         setFormula(updateFormula)
       } else {
         setFormula((prevFormula) => prevFormula + d)
+      }
+      if (
+        isOperator(formula[formula.length - 1]) &&
+        isOperator(formula[formula.length - 2])
+      ) {
+        const updateFormula = formula.slice(0, -2) + d
+
+        setFormula(updateFormula)
       }
       setDisplay(d)
     } else if (d === '=' && display !== '0') {

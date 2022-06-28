@@ -3,8 +3,10 @@
 .App {
   text-align: center;
   display: flex;
+  flex-direction: column;
+  color: white;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   /* background-color: teal; */
   background: #0F2027;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to left, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
